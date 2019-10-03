@@ -24,7 +24,7 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -53,7 +53,24 @@ const followersArray = [];
   luishrd
   bigknell
 */
-function createCard(attributes) {
+
+
+const cards = document.querySelector('.cards');
+
+
+axios
+  .get('https://api.github.com/users/colinbazzano')
+  .then((response) => {
+      const newCard = createCard(response.data);
+      cards.appendChild(newCard);
+
+    })
+  .catch(error => {
+    console.log('The data was not returned', error);
+  });
+
+
+function createCard(Obj) {
   const card = document.createElement('div');
   const cardImg = document.createElement('img');
   const cardInfo = document.createElement('div');
@@ -67,15 +84,16 @@ function createCard(attributes) {
   const bio = document.createElement('p');
 
   //content 
-  cardImg.textContent = attributes.avatar_url;
-  name.textContent = attributes.name;
-  username.textContent = attributes.login;
-  location.textContent = attributes.location;
+  cardImg.src = Obj.avatar_url;
+  name.textContent = Obj.name;
+  username.textContent = Obj.login;
+  location.textContent = Obj.location;
   profile.textContent = 'Profile:';
-  anchor.href = attributes.html_url;
-  followers.textContent = attributes.followers;
-  following.textContent = attributes.following;
-  bio.textContent = attributes.bio;
+  anchor.href = Obj.html_url;
+  anchor.textContent = Obj.html_url;
+  followers.textContent = `Followers: ${Obj.followers}`;
+  following.textContent = `Following: ${Obj.following}`;
+  bio.textContent = Obj.bio;
 
   //classes
   card.classList.add('card');
@@ -98,17 +116,36 @@ function createCard(attributes) {
   return card;
 }
 
-const cards = document.querySelector('.cards');
 
-axios
-  .get('https://api.github.com/users/colinbazzano')
-  .then(response => {
-    console.log(response);
-    response.data.forEach(item => {
-      const newCard = card(item);
-      cards.appendChild(newCard);
-    });
-  })
-  .catch(error => {
-    console.log('The data was not returned', error);
-  });
+let followersArray = [];
+followersArray = ['itsericfig', 'mdlevick', 'jailang', 'donutwizard666', 'primelos'];
+
+// followersArray.forEach(follower => {
+//   axios
+//   .get(`https://api.github.com/users/${follower}`)
+//   .then(response => {
+//     cards.appendChild(createCard(response.data));
+//   })
+//   .catch(error => {
+//     console.log('The data was not returned', error);
+//   })
+// });
+
+followersArray = axios
+
+.get('https://api.github.com/users/colinbazzano/followers')
+.then(response => {
+  response.data.forEach(follower => 
+    axios
+.get(`https://api.github.com/users/${follower.login}`)
+.then(response => {
+  cards.appendChild(createCard(response.data));
+})
+.catch(error => {
+  console.log('The data was not returned', error);
+})
+    );
+})
+.catch(error => {
+  console.log('The data was not returned', error);
+});
