@@ -94,10 +94,21 @@ function createCard(attributes) {
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
+
+  return card;
 }
 
-// axios
-//   // .get('https://api.github.com/users/colinbazzano')
-//   .then(response => {
-//     console.log(response);
-//   })
+const cards = document.querySelector('.cards');
+
+axios
+  .get('https://api.github.com/users/colinbazzano')
+  .then(response => {
+    console.log(response);
+    response.data.forEach(item => {
+      const newCard = card(item);
+      cards.appendChild(newCard);
+    });
+  })
+  .catch(error => {
+    console.log('The data was not returned', error);
+  });
