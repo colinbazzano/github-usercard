@@ -88,7 +88,7 @@ function createCard(Obj) {
   name.textContent = Obj.name;
   username.textContent = Obj.login;
   location.textContent = Obj.location;
-  profile.textContent = 'Profile:';
+  profile.textContent = 'Profile: ';
   anchor.href = Obj.html_url;
   anchor.textContent = Obj.html_url;
   followers.textContent = `Followers: ${Obj.followers}`;
@@ -120,6 +120,8 @@ function createCard(Obj) {
 let followersArray = [];
 followersArray = ['itsericfig', 'mdlevick', 'jailang', 'donutwizard666', 'primelos'];
 
+
+//THIS CODE BELOW IS FOR MANUAL FOLLOWERS
 // followersArray.forEach(follower => {
 //   axios
 //   .get(`https://api.github.com/users/${follower}`)
