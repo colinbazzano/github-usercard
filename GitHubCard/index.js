@@ -53,3 +53,51 @@ const followersArray = [];
   luishrd
   bigknell
 */
+function createCard(attributes) {
+  const card = document.createElement('div');
+  const cardImg = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const anchor = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  //content 
+  cardImg.textContent = attributes.avatar_url;
+  name.textContent = attributes.name;
+  username.textContent = attributes.login;
+  location.textContent = attributes.location;
+  profile.textContent = 'Profile:';
+  anchor.href = attributes.html_url;
+  followers.textContent = attributes.followers;
+  following.textContent = attributes.following;
+  bio.textContent = attributes.bio;
+
+  //classes
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  username.classList.add('username');
+
+  //append
+  card.appendChild(cardImg);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(anchor);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+}
+
+// axios
+//   // .get('https://api.github.com/users/colinbazzano')
+//   .then(response => {
+//     console.log(response);
+//   })
