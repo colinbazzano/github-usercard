@@ -54,10 +54,10 @@
   bigknell
 */
 
-
+// think of this as your biggest part, where everything will be going, so you need to call it (from the HTML) and then down below you will append the function to it (in the axios .then at the bottom)
 const cards = document.querySelector('.cards');
 
-
+// the .data refers to the place where you are grabbing the info from the API. Console log response and go into the data and that's where all the stuff you need is from - below is for just your profile, so that you are on top, at the bottom of the page is for followers (in case you forget, future Colin)
 axios
   .get('https://api.github.com/users/colinbazzano')
   .then((response) => {
@@ -83,7 +83,7 @@ function createCard(Obj) {
   const following = document.createElement('p');
   const bio = document.createElement('p');
 
-  //content 
+  //content  - remember that cardImg doesn't get textContent, but rather an src & anchor gets an href and text content
   cardImg.src = Obj.avatar_url;
   name.textContent = Obj.name;
   username.textContent = Obj.login;
@@ -95,13 +95,16 @@ function createCard(Obj) {
   following.textContent = `Following: ${Obj.following}`;
   bio.textContent = Obj.bio;
 
-  //classes
+  // ^^^ use a template literal for the followers/following because we want the label to be the same, but the numbers to be from the API
+
+
+  //classes 
   card.classList.add('card');
   cardInfo.classList.add('card-info');
   name.classList.add('name');
   username.classList.add('username');
 
-  //append
+  //append - append the anchor to the profile, and the profile to the cardInfo.
   card.appendChild(cardImg);
   card.appendChild(cardInfo);
   cardInfo.appendChild(name);
@@ -116,7 +119,7 @@ function createCard(Obj) {
   return card;
 }
 
-
+// changed const to let so that the followers array would be mutable
 let followersArray = [];
 followersArray = ['itsericfig', 'mdlevick', 'jailang', 'donutwizard666', 'primelos'];
 
@@ -133,6 +136,8 @@ followersArray = ['itsericfig', 'mdlevick', 'jailang', 'donutwizard666', 'primel
 //   })
 // });
 
+
+// this automatically adds your followers, study the code until you can do it in your sleep zZzzZz
 followersArray = axios
 
 .get('https://api.github.com/users/colinbazzano/followers')
@@ -148,6 +153,8 @@ followersArray = axios
 })
     );
 })
-.catch(error => {
-  console.log('The data was not returned', error);
-});
+// .catch(error => {
+//   console.log('The data was not returned', error);
+// });
+
+//was not sure if I needed to have two .catch errors, but appears the code still runs when theres just one
